@@ -396,7 +396,7 @@ st.markdown('<div class="map-container">', unsafe_allow_html=True)
 # Ensure the map is created and rendered properly
 try:
     m = create_map()
-    map_data = st_folium(m, width=800, height=600, returned_objects=["last_object_clicked"])
+    map_data = st_folium(m, width=1000, height=700, returned_objects=["last_object_clicked"])
 except Exception as e:
     st.error(f"Error al cargar el mapa: {e}")
 

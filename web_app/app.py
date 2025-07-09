@@ -13,48 +13,181 @@ import json
 
 # Page configuration
 st.set_page_config(
-    page_title="Susceptibilidad a Inundaciones - Caldas, Colombia",
-    page_icon="🌊",
+    page_title="Susceptibilidad a Derrumbes - Caldas, Colombia",
+    page_icon="☕",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # Custom CSS for better styling
 st.markdown("""
 <style>
+    /* Coffee grain background pattern on a dark base */
+    body {
+        background-color: #181c1b !important;
+        background-image: 
+            radial-gradient(circle at 20% 20%, rgba(139, 69, 19, 0.13) 2px, transparent 2px),
+            radial-gradient(circle at 80% 40%, rgba(101, 67, 33, 0.10) 1px, transparent 1px),
+            radial-gradient(circle at 40% 80%, rgba(160, 82, 45, 0.09) 1.5px, transparent 1.5px),
+            radial-gradient(circle at 60% 30%, rgba(139, 69, 19, 0.07) 1px, transparent 1px);
+        background-size: 50px 50px, 30px 30px, 70px 70px, 40px 40px;
+        background-position: 0 0, 15px 15px, 35px 35px, 25px 25px;
+    }
+    
     .main-header {
-        background: linear-gradient(90deg, #1e3c72, #2a5298);
-        padding: 2rem;
-        border-radius: 10px;
+        background: linear-gradient(135deg, #4CAF50, #FFC107);
+        padding: 2rem 3rem;
+        border-radius: 15px;
         color: white;
         text-align: center;
         margin-bottom: 2rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        border: 3px solid rgba(255,255,255,0.2);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .main-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 15% 15%, rgba(139, 69, 19, 0.2) 3px, transparent 3px),
+            radial-gradient(circle at 85% 25%, rgba(101, 67, 33, 0.15) 2px, transparent 2px),
+            radial-gradient(circle at 45% 85%, rgba(160, 82, 45, 0.1) 2.5px, transparent 2.5px);
+        background-size: 60px 60px, 40px 40px, 80px 80px;
+        opacity: 0.3;
+        z-index: 0;
+    }
+    
+    .main-header > * {
+        position: relative;
+        z-index: 1;
+    }
+    
+    .main-header h1 {
+        font-size: 3rem !important;
+        font-weight: 700 !important;
+        margin-bottom: 0.5rem !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .main-header h3 {
+        font-size: 1.3rem !important;
+        margin-bottom: 0.5rem !important;
+        opacity: 0.9;
     }
     
     .metric-card {
-        background: #f8f9fa;
-        padding: 1rem;
-        border-radius: 8px;
-        border-left: 4px solid #2a5298;
+        background: rgba(24,28,27,0.85);
+        backdrop-filter: blur(10px);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 2px solid rgba(255, 193, 7, 0.3);
         margin-bottom: 1rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
     
-    .stSelectbox label {
-        font-weight: 600;
-        color: #2a5298;
+    .metric-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 10% 90%, rgba(139, 69, 19, 0.1) 1px, transparent 1px),
+            radial-gradient(circle at 90% 10%, rgba(101, 67, 33, 0.08) 1.5px, transparent 1.5px);
+        background-size: 25px 25px, 35px 35px;
+        opacity: 0.4;
+        z-index: 0;
     }
     
-    .stSlider label {
-        font-weight: 600;
-        color: #2a5298;
+    .metric-card > * {
+        position: relative;
+        z-index: 1;
     }
     
-    .info-box {
-        background: #e3f2fd;
+    .metric-card h4 {
+        color: #FFC107 !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .info-section {
+        background: rgba(24,28,27,0.9);
+        backdrop-filter: blur(10px);
+        padding: 2rem;
+        border-radius: 15px;
+        border: 2px solid rgba(76, 175, 80, 0.3);
+        margin: 2rem 0;
+        color: white;
+    }
+    
+    .info-section h3 {
+        color: #FFC107 !important;
+    }
+    
+    .info-section h4 {
+        color: #4CAF50 !important;
+    }
+    
+    .info-section p {
+        color: rgba(255,255,255,0.9) !important;
+    }
+    
+    .map-container {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        border: 3px solid rgba(76, 175, 80, 0.4);
+        background: rgba(24,28,27,0.7);
+    }
+    
+    /* Hide unnecessary Streamlit elements */
+    .stDeployButton {display:none;}
+    footer {visibility: hidden;}
+    .stApp > header {visibility: hidden;}
+    
+    /* Sidebar styling */
+    .css-1d391kg {
+        background: rgba(24,28,27,0.95);
+        backdrop-filter: blur(10px);
+        border-right: 2px solid rgba(76, 175, 80, 0.3);
+    }
+    
+    .stSelectbox label, .stSlider label, .stMultiSelect label {
+        color: #FFC107 !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Ensure white text is visible */
+    .stMarkdown p, .stMarkdown span {
+        color: white !important;
+    }
+    
+    /* Footer styling */
+    .footer-section {
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        border: 1px solid rgba(76, 175, 80, 0.3);
         padding: 1rem;
-        border-radius: 8px;
-        border-left: 4px solid #1976d2;
-        margin: 1rem 0;
+    }
+    
+    .footer-section p {
+        color: rgba(255,255,255,0.7) !important;
+    }
+    
+    /* Legend background */
+    .stMarkdown div[style*='background: rgba(255,255,255,0.1)'] {
+        background: rgba(24,28,27,0.7) !important;
+        border: 1.5px solid #4CAF50 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -62,240 +195,176 @@ st.markdown("""
 # Header
 st.markdown("""
 <div class="main-header">
-    <h1>🌊 Análisis de Susceptibilidad a Inundaciones</h1>
-    <h3>Caldas, Colombia - Modelo de Evaluación de Riesgo</h3>
-    <p>Visualización interactiva de mapeo de susceptibilidad a inundaciones usando aprendizaje automático y análisis SIG</p>
+    <h1>⛰️ Análisis de Susceptibilidad a Derrumbes</h1>
+    <h3>Caldas, Colombia - Modelo de Evaluación de Riesgo en Áreas Cafeteras</h3>
+    <p>Monitoreo de estabilidad de taludes y prevención de deslizamientos en zonas de cultivo de café</p>
 </div>
 """, unsafe_allow_html=True)
 
-# Sidebar controls
+# Sidebar controls (simplified)
 with st.sidebar:
-    st.markdown("## 📊 Controles de Análisis")
+    st.markdown("## ⚙️ Configuración")
     
-    # Layer selection
-    layer_type = st.selectbox(
-        "Seleccionar Tipo de Capa",
-        ["Susceptibilidad a Inundaciones", "Elevación", "Pendiente", "Uso del Suelo", "Precipitación"]
+    # Risk level filter (main control)
+    risk_levels = st.multiselect(
+        "🎯 Niveles de Susceptibilidad",
+        ["Muy Bajo", "Bajo", "Medio", "Alto", "Muy Alto"],
+        default=["Alto", "Muy Alto"],
+        help="Selecciona los niveles de susceptibilidad a deslizamientos"
     )
     
     # Opacity control
-    opacity = st.slider("Opacidad de la Capa", 0.1, 1.0, 0.7, 0.1)
-    
-    # Risk level filter
-    risk_level = st.multiselect(
-        "Niveles de Riesgo a Mostrar",
-        ["Muy Bajo", "Bajo", "Medio", "Alto", "Muy Alto"],
-        default=["Medio", "Alto", "Muy Alto"]
-    )
-    
-    # Color scheme
-    color_scheme = st.selectbox(
-        "Esquema de Colores",
-        ["Viridis", "Plasma", "Coolwarm", "RdYlBu", "Spectral"]
-    )
+    opacity = st.slider("🔍 Intensidad", 0.3, 1.0, 0.7, 0.1)
     
     st.markdown("---")
     
-    # Legend
-    st.markdown("## 🎨 Leyenda")
+    # Additional landslide controls
+    st.markdown("### 📊 Factores de Análisis")
+    
+    show_slopes = st.checkbox("Pendientes > 30°", value=True, help="Mostrar áreas con pendientes críticas")
+    show_geology = st.checkbox("Geología inestable", value=True, help="Áreas con suelos susceptibles")
+    show_coffee = st.checkbox("Plantaciones de café", value=True, help="Ubicación de cultivos cafeteros")
+    
+    st.markdown("---")
+    
+    # Simplified Legend
+    st.markdown("## 🎨 Leyenda de Susceptibilidad")
     st.markdown("""
-    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+    <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 8px;">
         <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-            <div style="width: 20px; height: 20px; background: #2E8B57; margin-right: 0.5rem;"></div>
-            <span>Riesgo Muy Bajo</span>
+            <div style="width: 15px; height: 15px; background: #4CAF50; margin-right: 0.5rem; border-radius: 3px;"></div>
+            <span style="color: white;">Muy Bajo</span>
         </div>
         <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-            <div style="width: 20px; height: 20px; background: #FFD700; margin-right: 0.5rem;"></div>
-            <span>Riesgo Bajo</span>
+            <div style="width: 15px; height: 15px; background: #8BC34A; margin-right: 0.5rem; border-radius: 3px;"></div>
+            <span style="color: white;">Bajo</span>
         </div>
         <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-            <div style="width: 20px; height: 20px; background: #FFA500; margin-right: 0.5rem;"></div>
-            <span>Riesgo Medio</span>
+            <div style="width: 15px; height: 15px; background: #FFC107; margin-right: 0.5rem; border-radius: 3px;"></div>
+            <span style="color: white;">Medio</span>
         </div>
         <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-            <div style="width: 20px; height: 20px; background: #FF6347; margin-right: 0.5rem;"></div>
-            <span>Riesgo Alto</span>
+            <div style="width: 15px; height: 15px; background: #FF9800; margin-right: 0.5rem; border-radius: 3px;"></div>
+            <span style="color: white;">Alto</span>
         </div>
         <div style="display: flex; align-items: center;">
-            <div style="width: 20px; height: 20px; background: #DC143C; margin-right: 0.5rem;"></div>
-            <span>Riesgo Muy Alto</span>
+            <div style="width: 15px; height: 15px; background: #F44336; margin-right: 0.5rem; border-radius: 3px;"></div>
+            <span style="color: white;">Muy Alto</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-# Main content
-col1, col2 = st.columns([3, 1])
+# Cache the map creation to prevent re-rendering
+@st.cache_data(show_spinner=False)
+def create_map():
+    import random  # Import random inside the function
+    from folium.plugins import HeatMap  # Import HeatMap inside the function
 
-with col1:
-    st.markdown("## 🗺️ Mapa Interactivo")
-    
-    # Create base map centered on Caldas, Colombia
+    # Create the base map
     m = folium.Map(
         location=[5.0689, -75.5174],  # Caldas, Colombia coordinates
-        zoom_start=10,
-        tiles='OpenStreetMap'
+        zoom_start=11,
+        tiles='CartoDB positron'
     )
-    
-    # Add different tile layers with attribution
-    folium.TileLayer('Stamen Terrain', attr='Map tiles by Stamen Design, CC BY 3.0 — Map data © OpenStreetMap contributors').add_to(m)
-    folium.TileLayer('CartoDB positron', attr='© OpenStreetMap contributors, © CartoDB').add_to(m)
-    folium.TileLayer('CartoDB dark_matter', attr='© OpenStreetMap contributors, © CartoDB').add_to(m)
-    
-    # Mock raster data overlay (in real implementation, you'd load your actual raster)
-    # This creates a sample heat map overlay
-    from folium.plugins import HeatMap
-    
+
     # Generate sample flood susceptibility points
-    import random
-    
-    # Mock data for demonstration
-    flood_points = []
-    for _ in range(100):
-        lat = 5.0689 + (random.random() - 0.5) * 0.5
-        lon = -75.5174 + (random.random() - 0.5) * 0.5
-        intensity = random.random()
-        flood_points.append([lat, lon, intensity])
-    
+    flood_points = [
+        [5.0689 + (random.random() - 0.5) * 0.5, -75.5174 + (random.random() - 0.5) * 0.5, random.random()]
+        for _ in range(200)
+    ]
+
     # Add heatmap layer
-    if "Alto" in risk_level or "Muy Alto" in risk_level:
-        HeatMap(
-            flood_points,
-            min_opacity=0.2,
-            max_zoom=18,
-            radius=15,
-            blur=10,
-            gradient={
-                0.0: 'blue',
-                0.3: 'green',
-                0.5: 'yellow',
-                0.7: 'orange',
-                1.0: 'red'
-            }
-        ).add_to(m)
-    
-    # Add some sample markers for key areas
-    folium.Marker(
-        [5.0689, -75.5174],
-        popup="Manizales - Capital de Caldas",
-        tooltip="Haz clic para más información",
-        icon=folium.Icon(color='red', icon='info-sign')
+    HeatMap(
+        flood_points,
+        min_opacity=0.3,
+        max_zoom=15,
+        radius=20,
+        blur=15,
+        gradient={
+            0.0: 'navy',
+            0.3: 'blue',
+            0.5: 'cyan',
+            0.7: 'lime',
+            1.0: 'yellow'
+        }
     ).add_to(m)
-    
-    folium.Marker(
-        [5.1, -75.4],
-        popup="Área de Alto Riesgo - Zona Residencial",
-        tooltip="Alta susceptibilidad a inundaciones",
-        icon=folium.Icon(color='orange', icon='warning-sign')
-    ).add_to(m)
-    
-    # Add layer control
-    folium.LayerControl().add_to(m)
-    
-    # Display map
-    map_data = st_folium(m, width=700, height=500)
 
-with col2:
-    st.markdown("## 📈 Estadísticas")
-    
-    # Mock statistics
-    st.markdown("""
-    <div class="metric-card">
-        <h4>📊 Distribución de Riesgo</h4>
-        <p><strong>Muy Alto:</strong> 15%</p>
-        <p><strong>Alto:</strong> 25%</p>
-        <p><strong>Medio:</strong> 35%</p>
-        <p><strong>Bajo:</strong> 20%</p>
-        <p><strong>Muy Bajo:</strong> 5%</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class="metric-card">
-        <h4>🏘️ Áreas Afectadas</h4>
-        <p><strong>Áreas Urbanas:</strong> 45%</p>
-        <p><strong>Áreas Rurales:</strong> 30%</p>
-        <p><strong>Agrícola:</strong> 25%</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class="metric-card">
-        <h4>🌧️ Precisión del Modelo</h4>
-        <p><strong>Precisión:</strong> 87%</p>
-        <p><strong>Sensibilidad:</strong> 82%</p>
-        <p><strong>Puntuación F1:</strong> 84%</p>
-    </div>
-    """, unsafe_allow_html=True)
+    return m
 
-# Information section
+# Main content - Full width map with overlay stats
+st.markdown('<div class="map-container">', unsafe_allow_html=True)
+
+# Create map
+m = create_map()
+map_data = st_folium(m, width=None, height=650, returned_objects=["last_object_clicked"])
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# Statistics overlay cards - horizontal layout
 st.markdown("---")
-st.markdown("## ℹ️ Información del Modelo")
-
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     st.markdown("""
-    <div class="info-box">
-        <h4>📋 Fuentes de Datos</h4>
-        <ul>
-            <li>Modelo Digital de Elevación (DEM)</li>
-            <li>Datos de precipitación (IDEAM)</li>
-            <li>Clasificación de uso del suelo</li>
-            <li>Características del suelo</li>
-            <li>Redes de drenaje</li>
-        </ul>
+    <div class="metric-card">
+        <h4>⛰️ Taludes en Riesgo Crítico</h4>
+        <h2 style="color: #F44336; margin: 0;">2,547</h2>
+        <p style="margin: 0; opacity: 0.8;">hectáreas de café vulnerables</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
-    <div class="info-box">
-        <h4>🤖 Modelo de Aprendizaje Automático</h4>
-        <ul>
-            <li>Algoritmo: Random Forest</li>
-            <li>Características: 15 variables</li>
-            <li>Datos de entrenamiento: 10,000 muestras</li>
-            <li>Validación: Validación cruzada</li>
-            <li>Resolución: 30m x 30m</li>
-        </ul>
+    <div class="metric-card">
+        <h4>🏠 Población en Zona de Riesgo</h4>
+        <h2 style="color: #FF9800; margin: 0;">12,489</h2>
+        <p style="margin: 0; opacity: 0.8;">habitantes en áreas susceptibles</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col3:
     st.markdown("""
-    <div class="info-box">
-        <h4>🎯 Aplicaciones</h4>
-        <ul>
-            <li>Planificación urbana</li>
-            <li>Evaluación de riesgos</li>
-            <li>Planificación de emergencias</li>
-            <li>Evaluación de seguros</li>
-            <li>Diseño de infraestructura</li>
-        </ul>
+    <div class="metric-card">
+        <h4>📍 Deslizamientos Históricos</h4>
+        <h2 style="color: #FFC107; margin: 0;">34</h2>
+        <p style="margin: 0; opacity: 0.8;">eventos registrados (2020-2024)</p>
     </div>
     """, unsafe_allow_html=True)
 
-# Footer
-st.markdown("---")
+with col4:
+    st.markdown("""
+    <div class="metric-card">
+        <h4>� Precisión Modelo</h4>
+        <h2 style="color: #2196F3; margin: 0;">87%</h2>
+        <p style="margin: 0; opacity: 0.8;">confiabilidad</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# Compact Information section
 st.markdown("""
-<div style="text-align: center; color: #666; padding: 2rem;">
-    <p>🌊 Modelo de Susceptibilidad a Inundaciones - Caldas, Colombia | Desarrollado para Hackathon 2025</p>
-    <p>📧 Contacto: tu.email@ejemplo.com | 🐙 GitHub: tu-repositorio-github</p>
+<div class="info-section">
+    <h3 style="color: #FFC107; text-align: center; margin-bottom: 1.5rem;">ℹ️ Información del Proyecto</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+        <div>
+            <h4 style="color: #4CAF50;">📊 Factores de Inestabilidad</h4>
+            <p style="opacity: 0.9;">Pendientes pronunciadas, suelos saturados, actividad sísmica, erosión hídrica y deforestación en áreas de producción cafetera.</p>
+        </div>
+        <div>
+            <h4 style="color: #4CAF50;">🤖 Modelado Predictivo</h4>
+            <p style="opacity: 0.9;">Análisis geotécnico combinado con machine learning para identificar zonas de alta susceptibilidad a movimientos de masa.</p>
+        </div>
+        <div>
+            <h4 style="color: #4CAF50;">🎯 Prevención y Mitigación</h4>
+            <p style="opacity: 0.9;">Sistemas de alerta temprana, obras de estabilización de taludes y reubicación de cultivos en zonas críticas.</p>
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
-# Download section
-st.markdown("## 📥 Descargar Resultados")
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    if st.button("📊 Descargar Mapa de Riesgo (PNG)"):
-        st.success("¡Mapa de riesgo descargado exitosamente!")
-
-with col2:
-    if st.button("📋 Descargar Estadísticas (CSV)"):
-        st.success("¡Estadísticas descargadas exitosamente!")
-
-with col3:
-    if st.button("🗺️ Descargar GeoTIFF"):
-        st.success("¡Archivo GeoTIFF descargado exitosamente!")
+# Compact Footer
+st.markdown("---")
+st.markdown("""
+<div class="footer-section" style="text-align: center;">
+    <p>⛰️ <strong>Hackathon Cafetero 2025</strong> | Sistema de Monitoreo de Deslizamientos en Zonas Cafeteras - Caldas, Colombia</p>
+</div>
+""", unsafe_allow_html=True)

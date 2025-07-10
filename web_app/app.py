@@ -81,10 +81,10 @@ try:
     m = create_map(
         show_landslides=sidebar_controls['show_landslides'],
         show_faults=sidebar_controls['show_faults'],
-        show_area=sidebar_controls['show_area'],
-        show_points=sidebar_controls['show_points']
+        show_area=sidebar_controls['show_area']
     )
-    map_data = st_folium(m, width=1000, height=700, returned_objects=["last_object_clicked"])
+    # Display the map using st_folium
+    st_folium(m, width=700, height=600)
 except Exception as e:
     st.error(f"Error al cargar el mapa: {e}")
 

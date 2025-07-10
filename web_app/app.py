@@ -23,7 +23,7 @@ from map_components import create_map
 # Page configuration
 st.set_page_config(
     page_title="Susceptibilidad a Derrumbes - Caldas, Colombia",
-    page_icon="☕",
+    page_icon="⛰️",
     layout="wide",
     initial_sidebar_state="expanded"
 )

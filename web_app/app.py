@@ -38,33 +38,47 @@ display_header()
 sidebar_controls = create_sidebar()
 
 # Display project context and educational content
-display_project_context()
-display_educational_content()
+st.markdown("## Tecnologías Usadas")
 
-# Risk comparison charts
-st.markdown("---")
-st.markdown("## 📊 Comparación de Niveles de Riesgo por Municipio")
-
-# Get municipalities data
-municipalities_data = get_municipalities_data()
-df_municipalities = pd.DataFrame(municipalities_data)
-
-# Create columns for charts
-col1, col2 = st.columns(2)
+# Create columns for cards
+col1, col2, col3 = st.columns(3)
 
 with col1:
-    st.markdown("### 🎯 Nivel de Susceptibilidad")
-    fig1 = create_risk_chart(df_municipalities)
-    st.pyplot(fig1)
+    st.markdown("""
+    <div style="background-color: #333; padding: 15px; border-radius: 10px; color: #fff;">
+        <h3 style="color: #007BFF;">Satélites y fuentes de datos</h3>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li><b>CHIRPS</b>: Precipitación máxima promedio histórica (resolución 5 km, reprocesado a 30 m)</li>
+            <li><b>MODIS</b>: NDVI promedio 2009–presente</li>
+            <li><b>SRTM</b>: Elevación, pendiente, TRI y TWI</li>
+            <li><b>SGC</b>: Geología y fallas geológicas</li>
+            <li><b>SIMMA</b>: Inventario de deslizamientos desde 2009</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col2:
-    st.markdown("### ☕ Área Cafetera en Riesgo")
-    fig2 = create_scatter_chart(df_municipalities)
-    st.pyplot(fig2)
+    st.markdown("""
+    <div style="background-color: #333; padding: 15px; border-radius: 10px; color: #fff;">
+        <h3 style="color: #28A745;">Procesamiento y modelado</h3>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li><b>Google Earth Engine (GEE)</b>: Extracción y preprocesamiento de variables</li>
+            <li><b>Python</b>: Librerías como rasterio, numpy, scikit-learn y TensorFlow/Keras</li>
+            <li><b>Modelos ML</b>: Random Forest, XGBoost y Red Neuronal Convolucional (CNN)</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
 
-# Data table
-st.markdown("### 📋 Tabla Detallada de Municipios")
-display_data_table(df_municipalities)
+with col3:
+    st.markdown("""
+    <div style="background-color: #333; padding: 15px; border-radius: 10px; color: #fff;">
+        <h3 style="color: #FFC107;">Visualización</h3>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li>Página web desarrollada con React + Leaflet para mapas interactivos</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 # Statistics cards
 display_statistics_cards()

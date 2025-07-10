@@ -3,7 +3,7 @@ import geopandas as gpd
 import os
 import streamlit as st
 
-def create_map(show_landslides=True, show_faults=True):
+def create_map(show_landslides=True, show_faults=True, show_area=True, show_points=True):
     """Create the main folium map with shapefiles"""
     
     # Create the base map centered on Caldas
@@ -51,6 +51,39 @@ def create_map(show_landslides=True, show_faults=True):
                     tooltip="Falla Geológica"
                 ).add_to(m)
                     
+        # 3. Add area of study (AREA DE ESTUDIO)
+        if show_area:
+            area_path = os.path.join(base_path, "AREA DE ESTUDIO", "Polygons.shp")
+            if os.path.exists(area_path):
+                area = gpd.read_file(area_path)
+                folium.GeoJson(
+                    area,
+                    style_function=lambda x: {
+                        'fillColor': 'blue',
+                        'color': 'darkblue',
+                        'weight': 2,
+                        'fillOpacity': 0.5
+                    },
+                    popup=folium.Popup("Área de Estudio", parse_html=True),
+                    tooltip="Área de Estudio"
+                ).add_to(m)
+
+        # 4. Add points (Puntos)
+        if show_points:
+            points_path = os.path.join(base_path, "Puntos", "Export_Output_WGS84.shp")
+            if os.path.exists(points_path):
+                points = gpd.read_file(points_path)
+                folium.GeoJson(
+                    points,
+                    style_function=lambda x: {
+                        'color': 'orange',
+                        'weight': 3,
+                        'opacity': 0.8
+                    },
+                    popup=folium.Popup("Puntos Relevantes", parse_html=True),
+                    tooltip="Puntos Relevantes"
+                ).add_to(m)
+
     except Exception as e:
         st.error(f"Error al cargar shapefiles: {e}")
 

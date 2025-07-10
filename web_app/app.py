@@ -80,7 +80,9 @@ st.markdown('<div class="map-container">', unsafe_allow_html=True)
 try:
     m = create_map(
         show_landslides=sidebar_controls['show_landslides'],
-        show_faults=sidebar_controls['show_faults']
+        show_faults=sidebar_controls['show_faults'],
+        show_area=sidebar_controls['show_area'],
+        show_points=sidebar_controls['show_points']
     )
     map_data = st_folium(m, width=1000, height=700, returned_objects=["last_object_clicked"])
 except Exception as e:

@@ -32,6 +32,8 @@ def create_sidebar():
         
         show_landslides = st.checkbox("Deslizamientos históricos", value=True, help="Mostrar eventos de deslizamientos registrados")
         show_faults = st.checkbox("Fallas geológicas", value=True, help="Mostrar fallas y fracturas geológicas")
+        show_area = st.checkbox("Área de Estudio", value=True, help="Mostrar área de estudio")
+        show_points = st.checkbox("Puntos", value=True, help="Mostrar puntos relevantes")
         
         st.markdown("---")
         
@@ -80,5 +82,7 @@ def create_sidebar():
             'show_geology': show_geology,
             'show_coffee': show_coffee,
             'show_landslides': show_landslides,
-            'show_faults': show_faults
+            'show_faults': show_faults,
+            'show_area': show_area,
+            'show_points': show_points
         }

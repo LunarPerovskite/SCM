@@ -68,36 +68,36 @@ def display_statistics_cards():
     with col1:
         st.markdown("""
         <div class="metric-card">
-            <h4>⛰️ Municipios en Riesgo Alto</h4>
-            <h2 style="color: #F44336; margin: 0;">23</h2>
-            <p style="margin: 0; opacity: 0.8;">de 27 municipios de Caldas</p>
+            <h4>No Deslizamiento</h4>
+            <h2 style="color: #FFC107; margin: 0;">Precisión: 0.79</h2>
+            <p style="margin: 0; opacity: 0.8;">Recall: 0.68 | F1-Score: 0.73 | Soporte: 81</p>
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
         <div class="metric-card">
-            <h4>🏠 Población Vulnerable</h4>
-            <h2 style="color: #FF9800; margin: 0;">315,720</h2>
-            <p style="margin: 0; opacity: 0.8;">habitantes en zonas de riesgo</p>
+            <h4>Deslizamiento</h4>
+            <h2 style="color: #FFC107; margin: 0;">Precisión: 0.74</h2>
+            <p style="margin: 0; opacity: 0.8;">Recall: 0.83 | F1-Score: 0.79 | Soporte: 90</p>
         </div>
         """, unsafe_allow_html=True)
 
     with col3:
         st.markdown("""
         <div class="metric-card">
-            <h4>☕ Área Cafetera Afectada</h4>
-            <h2 style="color: #FFC107; margin: 0;">42,156</h2>
-            <p style="margin: 0; opacity: 0.8;">hectáreas en susceptibilidad alta</p>
+            <h4>Promedio Macro</h4>
+            <h2 style="color: #FFC107; margin: 0;">Precisión: 0.76</h2>
+            <p style="margin: 0; opacity: 0.8;">Recall: 0.76 | F1-Score: 0.76 | Soporte: 171</p>
         </div>
         """, unsafe_allow_html=True)
 
     with col4:
         st.markdown("""
         <div class="metric-card">
-            <h4>🎯 Precisión Modelo</h4>
-            <h2 style="color: #2196F3; margin: 0;">91.3%</h2>
-            <p style="margin: 0; opacity: 0.8;">validación con eventos históricos</p>
+            <h4>Promedio Ponderado</h4>
+            <h2 style="color: #FFC107; margin: 0;">Precisión: 0.76</h2>
+            <p style="margin: 0; opacity: 0.8;">Recall: 0.76 | F1-Score: 0.76 | Soporte: 171</p>
         </div>
         """, unsafe_allow_html=True)
 
